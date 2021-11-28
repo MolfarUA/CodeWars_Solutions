@@ -88,3 +88,15 @@ def make_negative(n):
         return n
     else:
         return n * -1
+################
+def make_negative( number ):
+    return int("-"+str(number)) if number > 0 else number
+def make_negative( number ):
+    if str(number).startswith("-"):
+        return number
+    elif str(number).startswith("0"):
+        return number
+    else:
+        return int("-" + str(number))
+#################
+make_negative = lambda x: x * -1 if x >= 0 else x
