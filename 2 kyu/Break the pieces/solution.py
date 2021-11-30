@@ -2,19 +2,21 @@ def break_pieces(shape):
     shape = shape.strip('\n')
     shape = shape.split('\n')
     w = max(map(len, shape))
-    shape = [' ' * len(shape[0])] + shape + [' ' * len(shape[0])]
+    shape = [' '*len(shape[0])]+shape+[' '*len(shape[0])]
     for i in range(len(shape)):
-        shape[i] = ' ' + shape[i] + '' * (1+w-len(shape[i]))
+        shape[i] = ' ' + shape[i] + ' '*(1+w-len(shape[i]))
+
     grid = ['']*(len(shape)*2 - 2)
+
     for i in range(len(shape)-1):
         for j in range(len(shape[0])-1):
             ch = shape[i][j]
             if ch == ' ':
-                grid[i*2] += ''
-                grid[i*2+1] += ''
+                grid[i*2] += '  '
+                grid[i*2+1] += '  '
             elif ch == '|':
-                grid[i*2] += '|'
-                grid[i*2+1] += '|'
+                grid[i*2] += '| '
+                grid[i*2+1] += '| '
             elif ch == '-':
                 grid[i*2] += '--'
                 grid[i*2+1] += '  '
@@ -22,13 +24,15 @@ def break_pieces(shape):
                 if shape[i][j+1] in '-+':
                     grid[i*2] += '+-'
                 else:
-                    grid[i*2] += '+'
+                    grid[i*2] += '+ '
                 if shape[i+1][j] in '|+':
-                    grid[i*2+1] += '|'
+                    grid[i*2+1] += '| '
                 else:
-                    grid[i*2+1] += ''
+                    grid[i*2+1] += '  '
+
     dirs = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-    visited = [[0] * len(grid[0]) for _ in range(len(grid))]
+
+    visited = [[0]*len(grid[0]) for _ in range(len(grid))]
 
     def search(st):
         cur_nodes = set()
@@ -36,19 +40,19 @@ def break_pieces(shape):
         while stack:
             (y, x) = stack.pop()
             visited[y][x] = 1
-            fg = false
-            for(dx, dy) in dirs:
+            fg = False
+            for (dx, dy) in dirs:
                 nx, ny = x+dx, y+dy
                 if 0 <= nx < len(grid[0]) and 0 <= ny < len(grid):
                     fg = fg or (grid[ny][nx] in '+|-')
-                    if visited[ny][nx] == 0 and grid[ny][nx] == '':
+                    if visited[ny][nx] == 0 and grid[ny][nx] == ' ':
                         stack.append((ny, nx))
             if fg:
                 for dx in range(-1, 2):
                     for dy in range(-1, 2):
-                        cur_nodes.add((y+dy)//2, (x+dx//2))
+                        cur_nodes.add(((y+dy)//2, (x+dx)//2))
             else:
-                cur_nodes(list(cur_nodes))
+                cur_nodes.add((y//2, x//2))
 
         return sorted(list(cur_nodes))
 
@@ -63,7 +67,7 @@ def break_pieces(shape):
         w = max_x - min_x
         h = max_y - min_y
 
-        grid = [[''] * (w+1) for _ in range(h+1)]
+        grid = [[' ']*(w+1) for _ in range(h+1)]
         for p in fig:
             y, x = p
             grid[y-min_y][x-min_x] = shape[y][x]
@@ -74,7 +78,7 @@ def break_pieces(shape):
                     t = []
                     for ind, (dy, dx) in enumerate(dirs):
                         nx, ny = x+dx, y+dy
-                        if 0 <= nx < len(grid[0]) and 0 < =ny < len(grid):
+                        if 0 <= nx < len(grid[0]) and 0 <= ny < len(grid):
                             if grid[ny][nx] in '-|+':
                                 t.append(ind)
                     t.sort()
@@ -93,4 +97,5 @@ def break_pieces(shape):
                 if fig[0] == (0, 0):
                     continue
                 res.append(draw_shape(fig))
+
     return res
