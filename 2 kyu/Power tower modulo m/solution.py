@@ -453,3 +453,69 @@ def tower(base, h, m):
     power = tower(base, h-1, phi)
     return pow(base, power+ phi, m) if towerLargerThan(base, h-1, phi) else pow(base, power, m)
   
+######################
+from math import log2, log10
+
+def phi(n):
+    n_ = n
+    r = n
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            while n % i == 0:
+                n //= i
+            r -= r // i
+    if n > 1: r -= r // n
+    return r
+
+def mpow(x, n, m):
+    if n == 0: return 1 % m
+    t = mpow(x, n//2, m)
+    t = t * t % m
+    if n % 2 == 1:
+        t = t * x % m
+    return t
+
+def f(x, n, m):
+    if m == 1: return 0
+    if n == 0: return 1
+    if x == 0: return 0
+    if x == 1: return 1
+    if n == 1: return x % m
+    if n == 2: return mpow(x, x, m)
+    k = n
+    ans = 1
+    while k > 0:
+        if ans*log10(x) > 5:
+            return mpow(x, phi(m) + f(x, n-1, phi(m)), m)
+        ans = x**ans
+        k -= 1
+    return ans % m
+
+def tower(x, n, m):
+    r = f(x, n, m)
+    return r
+
+#########################
+from math import log
+
+def phi(n):
+    r,i=n,2
+    while i*i<=n:
+        if n%i==0:
+            r=r//i*(i-1)
+            while n%i==0: n//=i
+        i+=1
+    if n>1: r=r//n*(n-1)
+    return r
+
+def _tower(base,h,m):
+    if h<2 or m==1: return pow(base,h,m)
+    p=phi(m)
+    return pow(base,p+tower(base,h-1,p),m)
+
+def tower(base,h,m):
+    res = 1
+    for _ in range(h):
+        if res*log(base)>log(m): return _tower(base,h,m)
+        res = base**res
+    return res%m
