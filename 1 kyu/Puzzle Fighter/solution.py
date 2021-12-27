@@ -1,131 +1,367 @@
-This kata is inspired by the arcade puzzle game Super Puzzle Fighter II Turbo (seen above).
+class Game():
+    h, w = 15, 6
+    colors = 'RBGY'
+    start = [(3, 1), (3, 2)]
+    moves = {'L': [(-1, 0), (-1, 0)], 'R': [(1, 0), (1, 0)]}
+    rotate = {'A': {(1, 0): (-1, -1), (0, -1): (-1, 1), (-1, 0): (1, 1), (0, 1): (1, -1)},
+              'B': {(1, 0): (-1, 1), (0, -1): (1, 1), (-1, 0): (1, -1), (0, 1): (-1, -1)}}
+    outborder_rotate = {'A': {(0, -1): [(1, 0), (0, 1)], (0, 1): [(-1, 0), (0, -1)]},
+                        'B': {(0, -1): [(-1, 0), (0, 1)], (0, 1): [(1, 0), (0, -1)]}}
+    neigh = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+    
+    def __init__(self, ar):
+        self.points = [(x, y) for y in range(self.h) for x in range(self.w)]
+        self.b = {point: ' ' for point in self.points}
+        self.instructions = ar
+        self.power = []
+        self.power_set = []
+        self.prev = None
+    
+    def solve(self):
+        for instruction in self.instructions:
+            detail = instruction[0]
+            moves = instruction[1].strip()
 
-In the game Super Puzzle Fighter II Turbo, the player controls pairs of blocks (referred to as "Gems") that drop into a pit-like playfield.
+            self.detail = self.start.copy()
+            self.type = list(detail)
+            for i in range(2):
+                self.b[self.detail[i]] = self.type[i]
 
-In this kata, your objective is to write a function that, given a sequence of Gem pairs and movement instructions, will return the ending game state.
+            for move in moves:
+                self.move_detail(move)
 
-Game Mechanics
-gems1
-The playfield is a matrix with 12 rows and 6 columns; it begins empty.
-Gems come in four different colors — red, blue, green, and yellow.
-Similar in style to other tile-matching video games, a pair of adjacent Gems will descend into the playfield. This pair can be moved left and right, and can be rotated clockwise and counter-clockwise. Once it lands onto an obstacle, the process repeats.
-If the pair lands on an obstacle, but one of the Gems has empty space below it, the pair will disjoint and the unsupported Gem will continue to descend until it lands onto an obstacle.
-In the image above (left), the green-blue Gem pair inside the white rectangular outline will disjoint, with the green Gem merging with the green Power Gem and the blue Gem landing on the yellow Gem, if allowed to drop straight down as is.
-Power Gems: Adjacent clusters of same-colored Gems in rectangular shapes, that are 2 x 2 or greater in width and height, will merge into one larger solid Gem, known as a Power Gem. In the image above (left), the larger blue Gem located at the bottom left is a 4 x 4 Power Gem. The green Gem just above it is a 2 x 3 Power Gem. In the image to the right, the green Gem that falls merges with the green Power Gem, transforming it into a 2 x 4 Power Gem.
-Each Gem pair descends from the Drop Alley, which is the top of the fourth column from the left, as shown above with the Gem pair inside the white dashed rectangle.
-Crash Gems are special Gems that, upon contact with a same-colored Gem, will destroy all connected Gems of the same color, including other Crash Gems of the same color. In the process, the Crash Gem will self-destruct.
-In the image above (left), a yellow Crash Gem (the yellow circle) is part of a descending Gem pair. If left to fall straight down as is, it will destroy all the connected yellow Gems, resulting in the image to the right. The blue Crash Gem remains until a blue Gem comes in contact with it.
-Rainbow Gems are a rare type of special Gem that destroy all Gems that match the color of the Gem it lands on, while self-destructing in the process. If it lands on the floor of the playfield, no other Gems will be destroyed.
-When rotating a Gem pair, the 2nd Gem will rotate around the 1st Gem. In the image above (left), the yellow Crash Gem will rotate around the red Gem. Note that a rotation may cause a shift in lateral position if a Gem pair is touching the left or right wall (to keep the Gems within the boundaries of the playfield).
-All movements for a Gem pair occur above the playfield before being dropped.
-There is only one descending Gem pair in play at any given time.
-In the image above (left), the red-yellow Gem pair (inside the dashed-rectangle) would appear after the green-blue Gem pair (inside the solid rectangle) has already settled.
-Power Gem Formation Priority
-gems4
-gems4a
-When a cluster of same-colored individual gems are set to form a Power Gem, but there is more than one possible configuration, priority goes to the potential Power Gem that is higher in elevation.
-In the first image above, after the green gems shatter, one of two possible Power Gems (that share resources) can be formed: a 2 x 2 block as shown in the image to the right, or a 2 x 2 block resting on the playfield floor. The Power Gem in the image to the right is the end result because it is higher in elevation.
-In the second image above, the individual red gems fall after the green gems (left image) have been cleared (middle image). The resulting Power Gem is shown on the right side, where the 2 x 3 forms due to its higher elevation.
+            continu = self.update()
+            if not continu:
+                return self.final(self.prev)
+                
+            self.prev = {point: self.b[point] for point in self.points}
 
-gems4b
-If two possible Power Gems with the same elevation can be formed, priority goes to the Power Gem that expands horizontally
-Above, a Rainbow Gem will land on the green gem (left), thereby destroying all green gems and allowing the individual red gems to fall (middle). Two possible Power Gems can form as a result, both having the same elevation. In this case, the result is the Power Gem on the right (as opposed to a 2 x 3 "vertical" Power Gem that occupies the 4th and 5th columns).
+        return self.final(self.b)
+    
+    def move_detail(self, move):
+        if move in 'LR':
+            to_move = self.moves[move]
+        else:
+            x1, y1 = self.detail[0]
+            x2, y2 = self.detail[1]
+            dif = (x2 - x1, y2 - y1)
+            to_move = [(0, 0), (self.rotate[move][dif])]
+        
+        both = True
+        for i, part in enumerate(to_move):
+            x, y = self.detail[i]
+            new = (x + part[0], y + part[1])
+            if new not in self.points:
+                both = False
+        
+        if not both and move in 'AB':
+            x1, y1 = self.detail[0]
+            x2, y2 = self.detail[1]
+            dif = (x2 - x1, y2 - y1)
+            to_move = self.outborder_rotate[move][dif]
+            both = True
+            
+        if both:    
+            for i, part in enumerate(to_move):
+                x, y = self.detail[i]
+                new = (x + part[0], y + part[1])
+                if new in self.points:
+                    self.detail[i] = new
+                    self.b[(x, y)] = ' '
+                    self.b[new] = self.type[i]
+    
+            if move == 'R' and self.detail[1][0] > self.detail[0][0]:
+                self.b[self.detail[0]] = self.type[0]
+            elif move == 'L' and self.detail[0][0] > self.detail[1][0]:
+                self.b[self.detail[0]] = self.type[0]
 
-gems3
-When a cluster of unmerged same-colored Gems drops and results in a merge, the individual Gems will combine before combining with Power Gems.
-In the image above (left), the green Crash Gem is about to eliminate the group of green Gems, allowing the 3 red Gems and 1 blue Gem to drop. The 3 red Gems will join the other 3 red Gems below, and form a 2 x 3 Power Gem before merging with the other 2 x 3 red Power Gem to its right, to finally become a 4 x 3 Power Gem. The result is the image to the right.
+    
+    def update(self):
+        move = 0
+        while True:
+            self.move_down()
+            if move == 0:
+                for x in range(self.w):
+                    if self.b[(x, 2)] != ' ':
+                        return False
+                move += 1
 
-gems2
-In the case where an existing Power Gem can expand by increasing vertically or horizontally, priority goes to horizontal growth.
-In the image above (left), a green Crash Gem is about to eliminate a cluster of green Gems, allowing the Gems above to drop and land on the remaining Gems below.
-Since priority goes to horizontal growth, the 2 x 2 red Power Gem will become a 3 x 2 Power Gem instead of a 2 x 3 Power Gem. The result is shown on the right.
+            self.form_power_gems()
 
-How Moves Work:
-At the start of a move, a Gem pair appears above the playfield.
-The pair falls, and each Gem in the pair land on another Gem or the playfield floor.
-All effects (eg. Power Gem formation, gem shattering due to Crash Gems or Rainbow Gems) initiated by any Gems will occur simultaneously.
-If any Gems are cleared (by Crash Gems or Rainbow Gems) in the process leaving some Gems suspended in air, all suspended Gems fall and land together.
-While step 4 makes an effect, repeat steps 3 and 4
-Below, the green Gem will combine with other adjacent ones to form a Power Gem, and at the same time the blue Crash Gem will shatter along with the two blue Gems below. The result is the middle frame, rather than the last frame.
+            rainbow_crash = True
+            gem_crash = True
+            
+            if not self.crash_rainbow_gem():
+                rainbow_crash = False
+            if not self.crash_gems():
+                gem_crash = False
+                
+            if not rainbow_crash and not gem_crash:
+                break
 
-gems5
-Input
-Your function will receive a 2-D array/list. Each subarray has a length of 2 and consists of:
+        return True
+    
+    def move_down(self):
+        for point in self.points[::-1]:
+            x, y = point
+            if self.b[point] != ' ':
+                if point not in [gem_point for gem in self.power for gem_point in gem]:
+                    cur = point
+                    while True:
+                        down = (cur[0], cur[1] + 1)
+                        if down in self.points and self.b[down] == ' ':
+                            self.b[down], self.b[cur] = self.b[cur], ' '
+                        else: break
+                        cur = down
+                else:
+                    for i in range(len(self.power)):
+                        if point in self.power[i]:
+                            c = i
+                            break
+                    while True:
+                        bottomY = [y for x, y in self.power[c]][-1]
+                        move_gem = True
+                        for i in range(len(self.power[c])):
+                            gemX, gemY = self.power[c][i]
+                            if gemY == bottomY:
+                                down = (gemX, gemY + 1)
+                                if down not in self.points or self.b[down] != ' ':
+                                    move_gem = False
+                                    break
+        
+                        if not move_gem:
+                            break
+                            
+                        current = len(self.power[c]) - 1
+                        for gem_point in self.power[c][::-1]:
+                            gemX, gemY = gem_point
+                            down = (gemX, gemY + 1)
+                            self.b[down], self.b[gem_point] = self.b[gem_point], ' '
+                            self.power[c][current] = down
+                            current -= 1
 
-a 2-character string representing a Gem pair
-a string of instructions for the Gem pair
-Each Gem is represented by the first letter of its color in uppercase — R, B, G, or Y.
-Crash Gems are represented by the first letter of its color in lowercase.
-A Rainbow Gem is represented as 0.
+    
+    def check_sides(self, point):
+        self.checked.append(point)
+        group = [point]
+        x, y = point
+        for x2, y2 in self.neigh:
+            xN, yN = x + x2, y + y2
+            neigh_point = (xN, yN)
+            if neigh_point in self.points and neigh_point not in self.checked:
+                if self.b[point].upper() == self.b[neigh_point].upper():
+                    next = self.check_sides(neigh_point)
+                    group.extend(next)
+        return group
+    
+    def isPowerGem(self, group):
+        def find_possible_gems(h, w, new_group, m):
+            possible = []
+            for y in range(h - 1):
+                for x in range(w - 1):
+                    if m[y][x] != 1:
+                        continue
+                    for pH in range(2, h - y + 1):
+                        for pW in range(2, w - x + 1):
+                            gem = [new_group[(x + x1, y + y1)] for y1 in range(pH) for x1 in range(pW) if m[y + y1][x + x1] == 1]
+                            if len(gem) == pH * pW:
+                                ispossible = True
+                                gem_set = set(gem)
+                                for i in range(len(self.power)):
+                                    power_gem_set = self.power_set[i]
+                                    if power_gem_set&gem_set and not power_gem_set <= gem_set:
+                                        ispossible = False
+                                        break
+                                if ispossible:
+                                    possible.append(gem)
+            return possible
+            
+        def check_formation_priority(copy):
+            for i in range(len(copy)):
+                for u in range(i + 1, len(copy)):
+                    if set(copy[i])&set(copy[u]):
+                        y1 = min([y for x, y in copy[i]])
+                        y2 = min([y for x, y in copy[u]])
+                        if y1 > y2:
+                            copy.pop(i)
+                        elif y2 > y1:
+                            copy.pop(u)
+                        else:
+                            x1 = [x for x, y in copy[i] if y == y1]
+                            x2 = [x for x, y in copy[u] if y == y2]
+                            if x1 > x2:
+                                copy.pop(u)
+                            else:
+                                copy.pop(i)
+                        return copy
+            return copy
+        
+        def check_expand_priority(copy):
+            for i in range(len(copy)):
+                for u in range(i + 1, len(copy)):
+                    if set(copy[i])&set(copy[u]):
+                        y1 = min([y for x, y in copy[i]])
+                        y2 = min([y for x, y in copy[u]])
+                        x1 = [x for x, y in copy[i] if y == y1]
+                        x2 = [x for x, y in copy[u] if y == y2]
+                        if x1 > x2:
+                            copy.pop(u)
+                        elif y2 > y1:
+                            copy.pop(i)
+                        return copy
+            return copy
+        
+        def delete(copy):
+            for i in range(len(copy)):
+                for u in range(i + 1, len(copy)):
+                    iSet = set(copy[i])
+                    uSet = set(copy[u])
+                    if iSet&uSet:
+                        if iSet <= uSet:
+                            copy.pop(i)
+                        else:
+                            copy.pop(u)
+                        return copy
+            return copy
+            
+        allX = sorted([x for x, y in group])
+        allY = sorted([y for x, y in group])
+        minX, maxX = allX[0], allX[-1]
+        minY, maxY = allY[0], allY[-1]
 
-Movement Instructions are as follows:
+        h = maxY - minY + 1
+        w = maxX - minX + 1
+        new_group = {(x - minX, y - minY): (x, y) for x, y in group}
+        m = [[0 for x in range(w)] for y in range(h)]
+        for x, y in new_group:
+            m[y][x] = 1
 
-L: move left
-R: move right
-A: rotate counter-clockwise
-B: rotate clockwise
-Output
-Your function will return the ending game state in the form of a string. The string should consist of all 12 rows joined by newline characters.
-If at any point in the game a stack of Gems goes above the top row, terminate the process and return the game state before the last move. This applies to Crash Gems and Rainbow Gems as well; their position is taken into account before their effect.
+        possible = find_possible_gems(h, w, new_group, m)               
+        possible = sorted(possible, key = len)[::-1]
 
-Test Example
-instructions = [
-    ['BR','LLL'],
-    ['BY','LL'],
-    ['BG','ALL'],
-    ['BY','BRR'],
-    ['RR','AR'],
-    ['GY','A'],
-    ['BB','AALLL'],
-    ['GR','A'],
-    ['RY','LL'],
-    ['GG','L'],
-    ['GY','BB'],
-    ['bR','ALLL'],
-    ['gy','AAL']
-]
-game_state = '\n'.join([
-    '      ',
-    '      ',
-    '      ',
-    '      ',
-    '      ',
-    '      ',
-    '      ',
-    '      ',
-    '      ',
-    '    R ',
-    ' R  YR',
-    'RR  RB'
-])
+        new = []
+        for one in possible:
+            isnew = True
+            gem_set = set(one)
+            for i in range(len(self.power)):
+                if self.power_set[i] <= gem_set:
+                    isnew = False
+                    break
+            if isnew:
+                notin = True
+                for other in possible:
+                    if one != other and gem_set <= set(other):
+                        notin = False
+                if notin:
+                    new.append(one)
 
-puzzle_fighter(instructions) == game_state #True
+        while True:
+            new_copy = check_formation_priority(new)
+            if new_copy == new:
+                break
+            new = new_copy
 
-''' STEP-BY-STEP MOVES SEQUENCE
-   (GAME STATE at end of each of the first 5 moves)
+        possible_expand = possible
+        
+        for i in range(len(possible_expand) - 1, -1, -1):
+            gemin = False
+            possible_expand_set = set(possible_expand[i])
+            for u in range(len(self.power)):
+                if self.power_set[u] <= possible_expand_set:
+                    gemin = True
+                    cross = False
+                    for one in new:
+                        one_set = set(one)
+                        if possible_expand_set&one_set and not one_set <= possible_expand_set:
+                            cross = True
+                    if cross:
+                        possible_expand.pop(i)
+                        break
+            if not gemin:
+                possible_expand.pop(i)
 
- MOVE 1      MOVE 2      MOVE 3      MOVE 4      MOVE 5
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║      ║    ║      ║    ║      ║
-║      ║    ║      ║    ║ B    ║    ║ B    ║    ║ B    ║
-║B     ║    ║BB    ║    ║BB    ║    ║BB    ║    ║BB  RR║
-║R     ║    ║RY    ║    ║RYG   ║    ║RYG YB║    ║RYG YB║
-'''
-Technical Details
-Input will always be valid.
-Full Test Suite: 10 fixed tests and 200 random tests
-The maximum number of moves in any given test is 100
-Use Python 3+ for the Python translation
-For JavaScript, most built-in prototypes are frozen, except Array and Function
-Special thanks goes out to @Blind4Basics for his contributions to this kata
+        while True:
+            possible_expand_copy = delete(possible_expand)
+            if possible_expand_copy == possible_expand:
+                break
+            possible_expand = possible_expand_copy
+        
+        while True:
+            possible_expand_copy = check_expand_priority(possible_expand)
+            if possible_expand_copy == possible_expand:
+                break
+            possible_expand = possible_expand_copy
 
+        result = possible_expand
+        for one in new:
+            alone = True
+            one_set = set(one)
+            for gem in result:
+                if set(one) <= set(gem):
+                    alone = False
+            if alone:
+                result.append(one)
+                
+        self.new_power.extend(result)
+        
+    def form_power_gems(self):
+        self.new_power = []
+        self.checked = []
+        self.power_set = [set(one) for one in self.power]
+        for point in self.points:
+            if point not in self.checked and self.b[point] != ' ':
+                group = self.check_sides(point)
+                if len(group) >= 4:
+                    self.isPowerGem(group)
+        self.power = self.new_power.copy()
+    
+    def crash_rainbow_gem(self):
+        crashed = False
+        for point in self.points:
+            if self.b[point] == '0':
+                crashed = True
+                self.b[point] = ' '
+                down = (point[0], point[1] + 1)
+                if down in self.points and self.b[down] not in ' 0':
+                    color = self.b[down].upper()
+                    for point1 in self.points:
+                        if self.b[point1].upper() == color:
+                            for i in range(len(self.power)):
+                                if point1 in self.power[i]:
+                                    self.power.pop(i)
+                                    break
+                            self.b[point1] = ' '
+        return crashed
+    
+    def crash_gems(self):
+        crashed = False
+        self.checked = []
+        for point in self.points:
+            if self.b[point] in self.colors.lower():
+                group = self.check_sides(point)
+                if len(group) > 1:
+                    for part in group:
+                        for i in range(len(self.power)):
+                            if part in self.power[i]:
+                                self.power.pop(i)
+                                break
+                        self.b[part] = ' '
+                    crashed = True
+        return crashed
+    
+    def final(self, m):
+        lines = []
+        for y in range(3, self.h):
+            line = ''
+            for x in range(self.w):
+                line += m[(x, y)]
+            lines.append(line)
+        result = '\n'.join(lines)
+        return result
+            
+    
+def puzzle_fighter(ar):
+    return Game(ar).solve()
 ####################################################
 from collections import defaultdict
 from itertools import chain, count, cycle
