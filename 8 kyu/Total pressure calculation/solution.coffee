@@ -41,3 +41,9 @@ doubleton = (n) ->
   while new Set(++n + '').size != 2
     continue
   n
+______________
+doubleton = (num) -> 
+  num += 1
+  while(new Set(''+num).size != 2)
+    num++
+  return num
