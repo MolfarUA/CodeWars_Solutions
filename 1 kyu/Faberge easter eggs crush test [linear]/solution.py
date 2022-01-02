@@ -208,3 +208,65 @@ def height(n,m):
         multiplier -= 1
         
     return r % MOD
+###################################
+MOD = 998244353
+
+sfact = [0] * 3042
+fact = [0] * 100042
+inv = [0] * 100042
+
+small = True
+
+def fastexpo(n, power):
+    ans = 1
+    power %= (MOD-1)
+    while(power):
+        if(power & 1):
+            ans = (ans * n) % MOD
+        n = (n * n) % MOD
+        power >>= 1
+    return ans
+
+def binomial(n, k):
+    if k < 0 or n < k:
+        return 0
+    if not small:
+        return (inv[k] * inv[n-k]) % MOD
+    
+    return (sfact[k] * inv[k]) % MOD
+
+def init(n):
+    fact[0] = 1
+    for i in range(1, n+1):
+        fact[i] = (fact[i-1] * i) % MOD
+    inv[n] = fastexpo(fact[n], MOD-2)
+    for i in range(n, -1, -1):
+        inv[i-1] = (inv[i] * i) % MOD
+
+def height(n, m):
+    if n == 0 or m == 0:
+        return 0
+    if n >= m:
+        return fastexpo(2, m) - 1
+    
+    global small
+    if n > 3000:
+        small = False
+        init(m)
+    else:
+        small = True
+        init(n)
+        m %= MOD
+        sfact[0] = 1
+        for i in range(1, n+1):
+            sfact[i] = (sfact[i-1] * (m+1-i)) % MOD
+
+    sum = 0
+    for i in range(1, n+1):
+        if(small):
+            sum = (sum + sfact[i] * inv[i]) % MOD
+        else:
+            sum = (sum + inv[i] * inv[m-i]) % MOD
+    if not small:
+        sum = (sum * fact[m]) % MOD
+    return sum
