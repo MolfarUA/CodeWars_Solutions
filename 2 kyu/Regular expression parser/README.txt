@@ -31,3 +31,5 @@ The followings are invalid regexps and the parser should return Nothing in Haske
 "", ")(", "*", "a(", "()", "a**", etc.
 
 Feel free to use any parser combinator libraries available on codewars, or implement the parser "from scratch".
+
+5470c635304c127cad000f0d
