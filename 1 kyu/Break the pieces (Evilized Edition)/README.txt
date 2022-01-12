@@ -95,3 +95,6 @@ Final notes...
 
     If you're following the "hard path", this kata might make you crazy...
     Tests design: about 80 fixed tests (each of them doubled) and the random ones with shapes up to around 80x80 characters (100 for python and ruby, 250 for Java). If your solution times out, do not hesitate to do a second try before to do any modification to your code.
+
+
+591f3a2a6368b6658800020e
