@@ -22,3 +22,5 @@ For example, let m = 15. The prime factors of 15 are 3 and 5. Let's start with t
 
 b ** (q * totient(m) + r) % m == b ** r % m.
 This allows us to reduce large powers to powers that are less than totient(m). What if we choose a number b that is not in G. For example, let b = 3. Then the powers of 3 modulo 15 are 3, 9, 12, 6, 3, 9, 12, 6. The cycle length is still a divisor of totient(m), but the cycle does not end with 1. This implies that for b not in G, the statement in the above bullet does not hold. However, it can be amended slighly, so that we can still reduce large powers to smaller powers.
+
+5a08b22b32b8b96f4700001c
