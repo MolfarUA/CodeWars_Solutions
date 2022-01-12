@@ -42,3 +42,5 @@ n x n board dimensions: 24 >= n >= 4
 Full Test Suite: 15 fixed tests, 60 random tests
 Efficiency is necessary to pass
 JavaScript: prototypes have been frozen and require has been disabled
+
+5a8f42da5084d7dca2000255
