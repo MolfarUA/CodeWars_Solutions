@@ -5,3 +5,5 @@ For example, if given the input 'stress', the function should return 't', since 
 As an added challenge, upper- and lowercase letters are considered the same character, but the function should return the correct case for the initial letter. For example, the input 'sTreSS' should return 'T'.
 
 If a string contains all repeating characters, it should return an empty string ("") or None -- see sample tests.
+
+52bc74d4ac05d0945d00054e
