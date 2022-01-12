@@ -10,3 +10,5 @@ while sometimes
   n <= 3000
   m <= 2^200
 There are 150 random tests. You will need more than just a naive linear algorithm for this task :D
+
+5976c5a5cd933a7bbd000029
