@@ -14,3 +14,5 @@ Python Notes
 Whenever you use parentheses (...), instead use non-capturing ones (?:...). This is due to module re's restriction in the number of capturing (or named) groups, which is capped at 99.
 Each regex will be tested with re.search, so be sure to include both starting and ending marks in your regex.
 The second anti-cheat test checks if you used any of re, sys, or print in your code. You won't need to print anything since each test will show what numbers your code is being tested on.
+
+5993c1d917bc97d05d000068
