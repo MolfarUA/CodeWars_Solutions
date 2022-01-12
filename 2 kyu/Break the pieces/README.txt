@@ -51,3 +51,5 @@ Note : in C++ you are provided with two utility functions :
 std::string join(const std::string &sep, const std::vector<std::string> &to_join); // Returns the concatenation of all the strings in the vector, separated with sep 
 
 std::vector<std::string> split_lines(const std::string &to_split); // Splits a string, using separator '\n'
+
+527fde8d24b9309d9b000c4e
