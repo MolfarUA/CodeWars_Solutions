@@ -251,3 +251,6 @@ Note
 You do not need to concentrate on the size and performance of the output code, but you may need to be careful if the algorithm you used to transpile an instruction is too slow.
 If you are sure that my implementation of BrainFuck interpreter includes a bug that fails your solution. Please feel free to raise an issue.
 If the description above is not clear enough. Please feel free to question me.
+
+
+59f9cad032b8b91e12000035
