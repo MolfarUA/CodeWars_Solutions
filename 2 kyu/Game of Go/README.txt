@@ -1,3 +1,5 @@
+>>>BETA<<<
+
 Description
 In this challenge, you will be creating a go board that users can play a game of go on. An understanding of the rules of go should be sufficient enough to complete this kata.
 
