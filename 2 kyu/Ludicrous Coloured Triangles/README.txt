@@ -38,3 +38,5 @@ As a reference, the test cases in Bubbler's Insane version go up to 100 000 char
 With such large numbers, the challenge here will clearly not be about optimizing code execution, but about reducing algorithmic complexity.
 
 Please note that the test cases are randomly generated, so the actual time it takes to complete the tests can vary from one attempt to the next. A good solution, though, should be able to beat the timeout 99% of the time.
+
+5b84d6d6b2f82f34d00000d7
