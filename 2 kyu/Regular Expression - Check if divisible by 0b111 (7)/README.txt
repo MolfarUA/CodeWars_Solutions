@@ -5,3 +5,5 @@ Note:
     Empty strings should be rejected.
     Your solution should reject strings with any character other than 0 and 1.
     No leading 0's will be tested unless the string exactly denotes 0.
+
+56a73d2194505c29f600002d
