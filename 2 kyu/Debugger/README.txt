@@ -21,3 +21,5 @@ Debugger.attribute_accesses.append({
 You should NOT log calls of getter/setter methods that you might create by meta class.
 
 See the tests if in doubts.
+
+54bebed0d5b56c5b2600027f
