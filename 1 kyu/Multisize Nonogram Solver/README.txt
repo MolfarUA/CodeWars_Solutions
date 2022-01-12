@@ -40,3 +40,5 @@ You will be given 60 random tests in total. There will be:
 15 medium tests: 25 < the average of the side lengths <= 35
 10 big tests: 40 <= the average of the side lengths <= 50
 Good luck :)
+
+5a5519858803853691000069
