@@ -47,3 +47,6 @@ Now, there is only one mine left, but there are two `?` left.
 The mine can be hidden in any of them. 
 
 So you should return "?" as the result.
+
+
+57ff9d3b8f7dda23130015fa
