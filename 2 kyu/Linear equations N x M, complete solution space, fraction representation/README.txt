@@ -33,3 +33,5 @@ One last word to the tests:
 The test function checks the syntax of your output, uses some rules for different verifications and after all checks the given equations with your solution and verifies that all equations are satisfied for arbitrary values of qi's. If all things fit together, your solution is accepted! If not, you will get a hint 'why not'...
  
 Hint: don't rely on floating-point numbers to solve this kata. Use exact rational arithmetic.
+
+56464cf3f982b2e10d000015
