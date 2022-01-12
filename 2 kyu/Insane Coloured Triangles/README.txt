@@ -37,3 +37,5 @@ triangle('RRR') == 'R'
 triangle('RGBG') == 'B'
 triangle('RBRGBRB') == 'G'
 triangle('RBRGBRBGGRRRBGBBBGG') == 'G'
+
+5a331ea7ee1aae8f24000175
