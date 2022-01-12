@@ -24,3 +24,5 @@ Here is the example puzzle in the Sample Test.
 
 Notes
 Some puzzles may have lines with no cells filled. Most Nonogram games show the clues for such lines as a single zero, but the clue for such a line is represented as a zero-length tuple for the sake of this Kata.
+
+5a5072a6145c46568800004d
