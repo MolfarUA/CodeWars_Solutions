@@ -82,3 +82,5 @@ def simulate(asm, argv):
         elif ins == 'MU': r0 *= r1
         elif ins == 'DI': r0 /= r1
     return r0
+
+5265b0885fda8eac5900093b
