@@ -128,3 +128,4 @@ Whitespace expects floored division and modulo
     Java defines methods for floor division and modulo in Math class. The methods differ from the traditional / and % operators.
     There is no difference between Whitespace and Python in regard to the standard implementation of integer division and modulo operations.
 
+52dc4688eca89d0f820004c6
