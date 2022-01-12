@@ -38,3 +38,6 @@ Code size is restricted to 20K max, and external modules are disabled: inlining 
 
 Have fun!
 Simple version of this Kata is here.
+
+
+5a667236145c462103000091
