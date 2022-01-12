@@ -35,3 +35,5 @@ a.y.get_change == 'DEL'
 Note that the behaviour in case of any other operation on an undefined attribute is up to you: AttributeError might be raised or just a None, NONE or NO_SUCH might be returned.
 
 For your convenience, two objects: NO_SUCH and NONE are predefined, which has copy constructor. Also, the envelope class Bool of the nonsubclassable bool is predefined in case you might need it...
+
+56e02d5f2ebcd50083001300
