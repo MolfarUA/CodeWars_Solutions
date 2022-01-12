@@ -125,3 +125,5 @@ The maximum number of moves in any given test is 100
 Use Python 3+ for the Python translation
 For JavaScript, most built-in prototypes are frozen, except Array and Function
 Special thanks goes out to @Blind4Basics for his contributions to this kata
+
+5a3cbf29ee1aae06160000c9
