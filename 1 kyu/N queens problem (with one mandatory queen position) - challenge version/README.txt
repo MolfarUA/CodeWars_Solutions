@@ -31,3 +31,5 @@ Q.......
 .....Q..
 (Other solutions to this example are possible and accepted. The mandatory queen has to be in its position, in the example in the first row at col=3, row=0.)
 
+
+5985ea20695be6079e000003
