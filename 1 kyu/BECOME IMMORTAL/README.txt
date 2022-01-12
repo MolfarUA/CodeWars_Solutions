@@ -33,3 +33,5 @@ Adding up all the time gives 105 seconds.
 
 Because the system can only store time between 0 to 99 seconds, the first 100 seconds of time will be lost, giving the answer of 5.
 This is no ordinary magic (the Elder's life is at stake), so you need to care about performance. All test cases (900 tests) can be passed within 1 second, but naive solutions will time out easily. Good luck, and do not displease the Elder.
+
+59568be9cc15b57637000054
