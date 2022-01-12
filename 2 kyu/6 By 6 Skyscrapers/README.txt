@@ -53,3 +53,5 @@ Pass the clues in an array of 24 items. The clues are in the array around the cl
 If no clue is available, add value `0`
 Each puzzle has only one possible solution
 `SolvePuzzle()` returns matrix `int[][]`. The first indexer is for the row, the second indexer for the column. Python returns a 6-tuple of 6-tuples, Ruby a 6-Array of 6-Arrays.
+
+5679d5a3f2272011d700000d
