@@ -691,3 +691,6 @@ Some examples:
 "2,3,5-tridecyl"  =>   NOT ambiguous: this is three "decyl" chains
 "2-tridecyl"      =>   NOT ambiguous: this is one "tridecyl" at position 2
 "tridecylamine"   =>   AMBIGUOUS, because the amine function could hold up to 3 chains, so assume it is one "tridecyl" chain
+
+
+5a529cced8e145207e000010
