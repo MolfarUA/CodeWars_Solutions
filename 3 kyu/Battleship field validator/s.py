@@ -692,3 +692,152 @@ def validate_battlefield(field):
     if [ones, twos, threes, fours] == [4,3,2,1]:
         return True
     else: return False
+____________________________________________________________
+def validate_battlefield(field):
+    ship_cells = 0
+    for row in field:
+        ship_cells += row.count(1)
+    if ship_cells != 20:
+        return False
+    battleship_count = 0
+    cruisers_count = 0
+    destroyers_count = 0
+    submarines_count = 0
+    for row in field:
+        cell_adjacent_count = 0
+        for cell in row:
+            if cell == 1 and cell_adjacent_count == 0:
+                cell_adjacent_count +=1
+            elif cell == 1 and cell_adjacent_count == 1:
+                cell_adjacent_count += 1
+                destroyers_count += 1
+            elif cell == 1 and cell_adjacent_count == 2:
+                cell_adjacent_count += 1
+                destroyers_count -= 1
+                cruisers_count += 1
+            elif cell == 1 and cell_adjacent_count == 3:
+                cell_adjacent_count += 1
+                cruisers_count -= 1
+                battleship_count += 1
+            elif cell == 1 and cell_adjacent_count > 3:
+                return False
+            else:
+                cell_adjacent_count = 0
+    for y in range(10):
+        cell_adjacent_count = 0
+        for x in range(10):
+            if field[x][y] == 1 and cell_adjacent_count == 0:
+                cell_adjacent_count += 1
+                if (y == 0 and x == 0 and field[x][y + 1] == 0 and field[x + 1][y] == 0 and 
+                    field[x + 1][y + 1] == 0):
+                    submarines_count += 1
+                elif (y == 0 and x in range(1, 9) and field[x - 1][y] == 0 and 
+                    field[x - 1][y + 1] == 0 and field[x][y + 1] == 0 and 
+                    field[x + 1][y] == 0 and field[x + 1][y + 1] == 0):
+                    submarines_count += 1
+                elif (y == 0 and x == 9 and field[x - 1][y] == 0 and 
+                    field[x - 1][y + 1] == 0 and field[x][y + 1] == 0):
+                    submarines_count += 1
+                elif (y in range(1, 9) and x == 0 and field[x][y - 1] == 0 and 
+                    field[x + 1][y - 1] == 0 and field[x + 1][y] == 0 and 
+                    field[x + 1][y + 1] == 0 and field[x][y + 1] == 0):
+                    submarines_count += 1
+                elif (y in range(1, 9) and x in range(1, 9) and field[x - 1][y - 1] == 0 and 
+                    field[x - 1][y] == 0 and field[x - 1][y + 1] == 0 and 
+                    field[x][y - 1] == 0 and field[x][y + 1] == 0 and field[x + 1][y - 1] == 0 and 
+                    field[x + 1][y] == 0 and field[x + 1][y + 1] == 0):
+                    submarines_count += 1
+                elif (y in range(1, 9) and x == 9 and field[x - 1][y - 1] == 0 and 
+                    field[x - 1][y] == 0 and field[x - 1][y + 1] == 0 and field[x][y - 1] == 0 and 
+                    field[x][y + 1] == 0):
+                    submarines_count += 1
+                elif (y == 9 and x == 0 and field[x][y - 1] == 0 and field[x + 1][y - 1] == 0 and 
+                    field[x + 1][y] == 0):
+                    submarines_count += 1
+                elif (y == 9 and x in range(1, 9) and field[x - 1][y - 1] == 0 and 
+                    field[x - 1][y] == 0 and field[x][y - 1] == 0 and 
+                    field[x + 1][y - 1] == 0 and field[x + 1][y] == 0):
+                    submarines_count += 1
+                elif (y == 9 and x == 9 and field[x - 1][y - 1] == 0 and field[x - 1][y] == 0 and 
+                    field[x][y - 1] == 0):
+                    submarines_count += 1
+                else:
+                    continue
+            elif field[x][y] == 1 and cell_adjacent_count == 1:
+                cell_adjacent_count += 1
+                destroyers_count += 1
+            elif field[x][y] == 1 and cell_adjacent_count == 2:
+                cell_adjacent_count += 1
+                destroyers_count -= 1
+                cruisers_count += 1
+            elif field[x][y] == 1 and cell_adjacent_count == 3:
+                cell_adjacent_count += 1
+                cruisers_count -= 1
+                battleship_count += 1
+            elif field[x][y] == 1 and cell_adjacent_count > 3:
+                return False
+            else:
+                cell_adjacent_count = 0
+    if (battleship_count == 1 and cruisers_count == 2 and destroyers_count == 3 and 
+        submarines_count == 4):
+        return True
+    else:
+        return False
+____________________________________________________________
+def position_ship(field,i,j):
+    field[i][j]=0
+    column = j+1
+    count_j = 1
+    index = [[],[]]
+    index[0].append(i)
+    index[1].append(j)
+    while column<10 and field[i][column]==1:
+        index[1].append(column)
+        count_j+=1
+        field[i][column]=0
+        column+=1
+        
+    row = i+1
+    count_i =1
+    while row<10 and field[row][j]==1:
+        index[0].append(row)
+        count_i+=1
+        field[row][j]=0
+        row+=1
+        
+    print(index)
+    min_i,max_i = min(index[0]),max(index[0])
+    min_j,max_j = min(index[1]),max(index[1])
+    
+    if min_i-1>0:
+        min_i-=1
+    if max_i+1<len(field):
+        max_i+=1
+    if min_j-1>0:
+        min_j-=1
+    if max_j+1<len(field[0]):
+        max_j+=1
+    
+    for x in range(min_i,max_i+1):
+        for y in range(min_j,max_j+1):
+            if field[x][y]==1:
+                return None
+    
+    return max(count_i,count_j)
+    
+def validate_battlefield(field):
+    list_ships = []
+    for i in range(10):
+        for j in range(10):    
+            if field[i][j]==1:
+                list_ships.append(position_ship(field,i,j))
+                
+    if list_ships.count(4) !=1:
+        return False
+    if list_ships.count(3) !=2:
+        return False
+    if list_ships.count(2) !=3:
+        return False
+    if list_ships.count(1) !=4:
+        return False
+    return True
