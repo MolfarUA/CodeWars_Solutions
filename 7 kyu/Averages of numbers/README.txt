@@ -9,3 +9,6 @@ Output:  [ 2, 4, 3, -4.5]
 If the array has 0 or 1 values or is null, your method should return an empty array.
 
 Have fun coding it and please don't forget to vote and rank this kata! :-)
+
+
+57d2807295497e652b000139
