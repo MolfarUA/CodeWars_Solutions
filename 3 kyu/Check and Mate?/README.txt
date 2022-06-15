@@ -46,3 +46,6 @@ A comprehensive list of how each piece moves can be found at http://en.wikipedia
 Note 1: these functions should work in a noninvasive fashion - don't change the contents of the array or values of the pieces contained within it.
 
 Note 2: the tests might not imply explicitly why a certain position is or isn't a check or mate. If your code fails a test, you have to be able to analyze the situation and see which pieces are to blame. If all else fails, try asking for help at the discussion board.
+
+
+52fcc820f7214727bc0004b7
