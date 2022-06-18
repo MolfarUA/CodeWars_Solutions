@@ -1,3 +1,5 @@
+5917a2205ffc30ec3a0000a8
+
 N = 7
 perms = {i:set() for i in range(0, N+1)}
 for row in __import__('itertools').permutations(range(1,N+1), N):
