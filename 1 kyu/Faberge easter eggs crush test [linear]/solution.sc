@@ -1,3 +1,5 @@
+5976c5a5cd933a7bbd000029
+
 object Faberge {    
     def height(n: BigInt, m: BigInt): BigInt = {
       val MOD: BigInt = BigInt(998244353)
