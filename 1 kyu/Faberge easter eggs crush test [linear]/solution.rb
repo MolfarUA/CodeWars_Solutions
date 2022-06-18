@@ -1,3 +1,6 @@
+5976c5a5cd933a7bbd000029
+
+
 $invs = [0,1]
 for i in 2..80000 do
   $invs << (MOD - MOD / i) * $invs[MOD % i] % MOD
