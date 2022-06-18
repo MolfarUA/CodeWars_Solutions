@@ -1,3 +1,5 @@
+59568be9cc15b57637000054
+
 def elder_age(m, n, l, t):
     S = lambda x: x * (x-1) // 2 if x > 1 else 0
     D = lambda x,y: (S(y-l) - S(x-l)) % t
