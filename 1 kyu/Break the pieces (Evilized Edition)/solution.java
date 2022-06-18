@@ -1,3 +1,6 @@
+591f3a2a6368b6658800020e
+
+
 import java.util.*;
 
 public class BreakEvilPieces {
