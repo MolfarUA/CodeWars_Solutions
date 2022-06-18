@@ -1,3 +1,5 @@
+5917a2205ffc30ec3a0000a8
+
 object Skyscrapers {
     fun solvePuzzle(clues: IntArray): Array<IntArray> = Board(clues).solve()
 
