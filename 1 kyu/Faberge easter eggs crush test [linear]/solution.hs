@@ -1,3 +1,5 @@
+5976c5a5cd933a7bbd000029
+
 {-# LANGUAGE BangPatterns, MagicHash, UnboxedTuples, ForeignFunctionInterface, UnliftedFFITypes #-}
 
 module Faberge (height) where
