@@ -1,3 +1,5 @@
+5917a2205ffc30ec3a0000a8
+
 package kata
 
 import (
