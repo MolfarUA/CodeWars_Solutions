@@ -1,3 +1,6 @@
+57eb8fcdf670e99d9b000272
+
+
 import string
 
 def high(x):
@@ -291,3 +294,38 @@ def high(x):
             result_index = word_index
 
     return x.split(" ")[result_index]
+_____________________________________________
+def high(x):
+    x = x.split(" ");
+    a = ' abcdefghijklmnopqrstuvwxyz';
+    y = [];
+    for i in range(len(x)):
+        z = 0;
+        for j in range(len(x[i])):
+            z += a.find(x[i][j]);
+        y.append(z)
+    v = 0
+    for i in range(len(y)):
+        if y[i] > v :
+            v = y[i]
+    for i in range(len(y)):
+        if y[i] == v:
+            return x[i]
+_____________________________________________
+def high(x):
+    x_split = x.split()
+    l = []
+    count = 0
+    sum = []
+    for i in x:
+        l.append(ord(i)-96)
+    l.append(-64)
+    for i in l:
+        if i == -64:
+            count += 0
+            sum.append(count)
+            count = 0
+        else:
+            count += i
+    longest = sum.index(max(sum))
+    return x_split[longest]
