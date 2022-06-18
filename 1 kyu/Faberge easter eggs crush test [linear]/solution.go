@@ -1,3 +1,5 @@
+5976c5a5cd933a7bbd000029
+
 package kata
 
 import "math/big"
