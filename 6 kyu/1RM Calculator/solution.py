@@ -1,3 +1,5 @@
+595bbea8a930ac0b91000130
+
 import numpy as np
 def calculate_1RM(w, r):
     if r == 0:
@@ -146,3 +148,13 @@ def calculate_1RM(w, r):
     if r == 1:
         return w
     return round(max(epley(w, r), mcglothin(w, r), lombardi(w, r)))
+##############
+def calculate_1RM(w, r):
+    return round(max(w*(1 + r/30), 100*w/(101.3 - 2.67123*r), w*r**.1)) if r > 1 else r*w
+##############
+def calculate_1RM(w, r):
+    erley = lambda w, r: w * (1 + r / 30)
+    mcglothin = lambda w, r: 100 * w / (101.3 - 2.67123 * r)
+    lombardi = lambda w, r: w * r**0.1
+    
+    return 0 if r == 0 else w if r == 1 else round(max(erley(w, r), mcglothin(w, r), lombardi(w, r)))
