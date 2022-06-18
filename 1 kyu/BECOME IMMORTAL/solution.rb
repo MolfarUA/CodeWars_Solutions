@@ -1,3 +1,5 @@
+59568be9cc15b57637000054
+
 def elder_age(m,n,l,t)
   p = 0
   while 1 << p <= m || 1 << p <= n || 1 << p <= l do p += 1 end
