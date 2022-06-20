@@ -1,3 +1,7 @@
+5ab6538b379d20ad880000ab
+
+
+
 def area_or_perimeter(l , w):
     return l * w if  l == w else (l+w)*2
 ###########
@@ -39,3 +43,32 @@ def area_or_perimeter(l , w):
     return solucion
 ###################
 area_or_perimeter = lambda l , w: (l + w) * 2 if not l == w else w * l
+###################
+def area_or_perimeter(l , w):
+    if l==w:
+        s=l*l
+    else:
+        s=2*(l+w)
+    return s
+###################
+def area_or_perimeter(l , w):
+    if l * w == w * w:
+            return l * w
+    else: 
+        z = (l*2) + (w*2)
+        return z
+###################
+def area_or_perimeter(l , w):
+    if l == w:
+        rez = l*w
+    else: 
+        rez = 2 *(l+w)
+    return rez
+###################
+def area_or_perimeter(l , w):
+  result = 0;
+  if (l == w):
+    result = l * w;
+  else:
+    result = (2 * l) + (2 * w);
+  return result;
