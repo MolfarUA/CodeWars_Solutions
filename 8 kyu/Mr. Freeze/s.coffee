@@ -1,0 +1,10 @@
+514a3996d22ce03198000003
+
+
+Object.freeze MrFreeze
+_________________________
+MrFreeze.freeze
+_________________________
+Object.freeze(MrFreeze)
+_________________________
+Object.freeze? MrFreeze
