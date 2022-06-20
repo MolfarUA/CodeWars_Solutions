@@ -1,3 +1,6 @@
+5ab6538b379d20ad880000ab
+
+
 public class MathCheck {
     public static int AreaOrPerimeter(int l, int w) => (l == w) ? l * w : 2 * (l + w);
         
@@ -47,5 +50,12 @@ public class MathCheck {
                 return per;
             }
             return l * w;
+    }
+}
+________________________
+public class MathCheck {
+    public static int AreaOrPerimeter(int l, int w) {
+        
+      return l == w ? w * l : l + l + w + w;
     }
 }
