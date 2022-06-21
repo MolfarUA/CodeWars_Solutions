@@ -1,3 +1,6 @@
+5a3cbf29ee1aae06160000c9
+
+
 class Piece {
   constructor(color) {
     this.color = color;
