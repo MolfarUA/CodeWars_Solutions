@@ -1,3 +1,7 @@
+5a3cbf29ee1aae06160000c9
+
+
+
 class GemStone
   attr_reader :x, :y, :bounds, :color, :size
 
