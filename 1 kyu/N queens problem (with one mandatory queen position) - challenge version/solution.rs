@@ -1,3 +1,7 @@
+5985ea20695be6079e000003
+
+
+
 use rand::{prelude::ThreadRng, Rng};
 
 pub fn solve_n_queens(n: usize, fixed: (usize, usize)) -> Option<String> {
