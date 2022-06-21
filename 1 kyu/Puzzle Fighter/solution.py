@@ -1,3 +1,7 @@
+5a3cbf29ee1aae06160000c9
+
+
+
 class Game():
     h, w = 15, 6
     colors = 'RBGY'
