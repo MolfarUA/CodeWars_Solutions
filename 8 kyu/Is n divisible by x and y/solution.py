@@ -1,3 +1,7 @@
+5545f109004975ea66000086
+
+
+
 def is_divisible(n,x,y):
     return True if n % x == n % y == 0 else False
 ################
@@ -103,3 +107,12 @@ def is_divisible(n,x,y):
                         return True
 
         return False
+_____________________
+def is_divisible(n,x,y):
+    return n % x == 0 and n % y == 0
+_____________________
+def is_divisible(n, x, y):
+    return n % x == n % y == 0
+_____________________
+def is_divisible(n,x,y):
+    return not (n%x or n%y)
