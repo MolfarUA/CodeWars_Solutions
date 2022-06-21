@@ -1,3 +1,6 @@
+5c1d796370fee68b1e000611
+
+
 def transpose(my_board): #transposes the board.
     return list(map(list, zip(*my_board)))
 
