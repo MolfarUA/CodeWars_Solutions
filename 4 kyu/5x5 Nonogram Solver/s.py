@@ -1,3 +1,6 @@
+5a479247e6be385a41000064
+
+
 class Nonogram:
 
     def __init__ (self, clues):
