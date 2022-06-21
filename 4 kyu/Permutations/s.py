@@ -1,3 +1,7 @@
+5254ca2719453dcc0b00027d
+
+
+
 def permutations(string):
     if len (string) == 1:
         return string
@@ -34,3 +38,22 @@ def permutations(s):
     for i,v in enumerate(s):
         result += [v+p for p in permutations(s[:i]+s[i+1:])]
     return list(set(result))
+______________________________
+
+from itertools import permutations as perm
+
+def permutations(string):
+    a = list(set([''.join(x) for x in perm(string)]))
+    return a
+______________________________
+def permutations(string):
+     return set([''.join(variation) for variation in perm(string)])
+______________________________
+import itertools
+def permutations(t):
+
+    r =list(itertools.permutations(t))
+    for e in range(len(r)):
+        r[e]=list(r[e])
+        r[e]=''.join(map(str, r[e]))
+    return set(r)
