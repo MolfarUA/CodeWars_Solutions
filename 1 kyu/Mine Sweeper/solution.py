@@ -1,5 +1,8 @@
-from itertools import combinations
+5c1d796370fee68b1e000611
 
+
+
+from itertools import combinations
 
 def solve_mine(mapStr, n):   return MineSweeper(mapStr, n).solve()
 
