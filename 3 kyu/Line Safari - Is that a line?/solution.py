@@ -1,3 +1,6 @@
+59c5d0b0a25c8c99ca000237
+
+
 def line(grid):
     g = {(r, c):v for r, row in enumerate(grid) for c, v in enumerate(row) if v.strip()}
     ends = [k for k in g if g[k] == 'X']
