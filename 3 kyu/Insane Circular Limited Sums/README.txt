@@ -42,3 +42,6 @@ Acknowledgement
 This problem was designed as a hybrid of Project Euler #209: Circular Logic and Project Euler #164: Numbers for which no three consecutive digits have a sum greater than a given value.
 
 If you enjoyed this Kata, please also have a look at my other Katas!
+
+
+59953009d65a278783000062
