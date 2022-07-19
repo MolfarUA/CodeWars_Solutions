@@ -1,3 +1,6 @@
+55eea63119278d571d00006a
+
+
 def next_id(arr):
     try:
         upper_limit = max(arr) + 1
@@ -69,3 +72,38 @@ def next_id(arr):
 ################
 def next_id(arr):
     return min(set(arr) ^ set(range(max(arr) + 2))) if arr else 0
+______________________
+def next_id(arr):
+    a = set(arr)
+    b = 0
+    for i in a:
+        if b ==i:
+            b+=1
+        else:
+            break
+    return b
+______________________
+def next_id(arr):
+    lista = list(range(len(arr)+1))
+    
+    for i in lista:
+        if i not in arr:
+            return i
+______________________
+def next_id(arr):
+    if len(arr)>0:
+        for i in range(max(arr)):
+            if i not in arr:
+                return i
+    return 0 if len(arr) == 0 else max(arr)+1
+______________________
+def next_id(arr):
+    print(arr)
+    if len(arr) == 0:
+        return 0
+    arr = list(set(arr))
+    sorted(arr)
+    for i,n in enumerate(arr):
+        if i != n:
+            return i
+    return arr[-1]+1
