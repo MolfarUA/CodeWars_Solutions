@@ -1,3 +1,6 @@
+526a569ca578d7e6e300034e
+
+
 def convert(input, source, target):
     source_base = len(source)
     source_map = {c: i for i, c in enumerate(source)}
