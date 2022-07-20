@@ -1,3 +1,6 @@
+526a569ca578d7e6e300034e
+
+
 def convert(input, source, target)
   value = input.chars.reduce(0) do |s, c|
     source.size * s + source.index(c)
