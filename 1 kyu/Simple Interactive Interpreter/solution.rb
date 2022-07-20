@@ -1,3 +1,6 @@
+52ffcfa4aff455b3c2000750
+
+
 module Operators
     def operator_for_multiplicatives
         operator_for(['*', '/', '%']) # multiplication, division, modulo
