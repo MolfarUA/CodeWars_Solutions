@@ -1,3 +1,6 @@
+54acd76f7207c6a2880012bb
+
+
 case class MorseCodeToken(signal: Char, length: Int) {}
 
 object MorseCodeTokenizer {
