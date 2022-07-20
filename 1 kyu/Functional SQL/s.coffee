@@ -1,3 +1,6 @@
+545434090294935e7d0010ab
+
+
 query = ->
 
   groupByRec = (arr, funcs) ->
@@ -513,3 +516,34 @@ class SqlQuery
 
 query = ->
   new SqlQuery()
+_______________________________________
+ID  = (x  ) -> (x)
+AND = (fns) -> (x) -> fns.every (fn) -> fn x
+OR  = (fns) -> (x) -> fns.some  (fn) -> fn x
+
+product = (arr) -> arr.reduce ((res, x) -> [].concat(y.concat [z] for z in x for y in res...)), [[]]
+grouper = (arr, fns) -> arr.reduce ((res, x) ->
+    (fns.reduce ((groups, fn) ->
+      key = fn(x); idx = groups.findIndex (group) -> key is group[0]
+      groups[idx = groups.length] = [key, []] if idx < 0
+      groups[idx][1]), res).push(x)
+    res), []
+
+set = (object, property, value) -> if property of object then throw Error("Duplicate #{property}") else object[property] = value
+
+query = ->
+  sms = WHERE: [], HAVING: [] # SQL Statements
+  qry =
+    select:  (fn  =  ID) -> set sms, "SELECT",  fn ; qry
+    from:    (a, arr...) -> set sms, "FROM", (if arr.length then product [a].concat arr else a); qry
+    orderBy: (fn       ) -> set sms, "ORDERBY", fn ; qry
+    groupBy: (   fns...) -> set sms, "GROUPBY", fns; qry
+    where:   (   fns...) -> sms.WHERE .push OR fns;  qry
+    having:  (   fns...) -> sms.HAVING.push OR fns;  qry
+    execute:             ->
+      res = sms.FROM ? [];
+      res = res.filter AND sms.WHERE   if sms.WHERE.length
+      res = grouper res,   sms.GROUPBY if sms.GROUPBY
+      res = res.filter AND sms.HAVING  if sms.HAVING.length
+      res = [res...].sort  sms.ORDERBY if sms.ORDERBY
+      if sms.SELECT then res.map sms.SELECT else res
