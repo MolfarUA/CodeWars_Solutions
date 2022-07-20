@@ -1,3 +1,6 @@
+5470c635304c127cad000f0d
+
+
 module RegExpParser (RegExp(..), parseRegExp) where
 
 import Control.Applicative (pure, empty, (<|>), (<*>), (<$>) , Applicative, Alternative)
