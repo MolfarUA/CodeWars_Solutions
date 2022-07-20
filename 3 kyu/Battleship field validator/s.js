@@ -1,3 +1,6 @@
+52bb6539a4cf1b12d90005b7
+
+
 function validateBattlefield(field) {
   var hit = (row, col) => (row < 0 || col < 0 || row > 9 || col > 9) ? 0 : field[row][col];
   for (var ships = [10,0,0,0,0], row = 0; row < 10; row++) {
