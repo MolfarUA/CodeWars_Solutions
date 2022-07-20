@@ -1,3 +1,6 @@
+545434090294935e7d0010ab
+
+
 Array.prototype.findIndex = function(fn) {
   for (let i = 0; i < this.length; i++) if (fn(this[i])) return i;
   return -1;
@@ -722,3 +725,165 @@ class SQL {
     return this.data
   }
 }
+_______________________________________
+const query = function () {
+  const self = {};
+
+  var tables = [];
+  var selector = null;
+
+  var whereClauses = [];
+  var havingClauses = [];
+
+  var order = [];
+  var group = [];
+
+  var selectorAll = function (r) {
+    return r;
+  };
+
+  self.select = function (a) {
+    if (selector != null) throw new Error("Duplicate SELECT");
+    selector = a || false;
+    return self;
+  };
+
+  self.from = function () {
+    if (tables.length >= 1) throw new Error("Duplicate FROM");
+    tables = Array.from(arguments);
+    return self;
+  };
+
+  self.where = function () {
+    whereClauses.push(Array.from(arguments));
+    return self;
+  };
+
+  self.having = function () {
+    havingClauses.push(Array.from(arguments));
+    return self;
+  };
+
+  self.orderBy = function () {
+    if (order.length >= 1) throw new Error("Duplicate ORDERBY");
+    order = Array.from(arguments);
+    return self;
+  };
+
+  self.groupBy = function () {
+    if (group.length >= 1) throw new Error("Duplicate GROUPBY");
+    group = Array.from(arguments);
+    return self;
+  };
+
+  self.execute = function () {
+    var tmpdata = [];
+    var gdata = [];
+
+    var data = [];
+    let t = 0;
+
+    if (tables.length >= 2) {
+      tables.forEach(function () {
+        data.push([]);
+      });
+
+      tables[1 - 1].forEach(function (row, idx) {
+        for (t = 0; t < tables.length; t++) {
+          data[t].push(tables[t][idx]);
+        }
+      });
+
+      tmpdata = [];
+      (function traverseTable(D, t) {
+        if (D.length === 0) {
+          tmpdata.push(t.slice(0));
+        } else {
+          for (var i = 0; i < D[0].length; i++) {
+            t.push(D[0][i]);
+            traverseTable(D.slice(1), t);
+            t.splice(-1, 1);
+          }
+        }
+      })(data, []);
+
+      data = [];
+      tmpdata.forEach(function (row, i) {
+        if (
+          whereClauses.every(function (orWhereClauses) {
+            return orWhereClauses.some(function (whereClause) {
+              return whereClause(row);
+            });
+          })
+        ) {
+          data.push(row);
+        }
+      });
+    } else if (tables.length === 1) {
+      tables[1 - 1].forEach(function (roww, i) {
+        if (
+          whereClauses.every(function (orWhereClauses) {
+            return orWhereClauses.some(function (whereClause) {
+              return whereClause(roww);
+            });
+          })
+        ) {
+          data.push(roww);
+        }
+      });
+    } else {
+      data = [];
+    }
+
+    if (group.length >= 1) {
+      const T = {};
+
+      data.forEach(function (roww) {
+        var t = T;
+        group.forEach(function (groupCallback) {
+          var k = groupCallback(roww);
+          t[k] = t[k] || {};
+          t = t[k];
+        });
+        t._data = t._data || [];
+        t._data.push(roww);
+      });
+
+      (function traverse(nod, R) {
+        if (nod._data != null) {
+          nod._data.forEach(function (o) {
+            R.push(o);
+          });
+        } else {
+          for (var k in nod) {
+            k = /\d+/.test(k) ? +(k) : k;
+            var row = [k, []];
+            traverse(nod[k], row[1 - 1 + 1]);
+            R.push(row);
+          }
+        }
+      })(T, gdata);
+
+      gdata.forEach(function (groww) {
+        if (
+          havingClauses.every(function (orHavingClauses) {
+            return orHavingClauses.some(function (havingClause) {
+              return havingClause(groww);
+            });
+          })
+        ) {
+          tmpdata.push(groww);
+        }
+      });
+      data = tmpdata;
+    }
+
+    order.forEach(function (orderCallback) {
+      data = data.sort(orderCallback);
+    });
+
+    return data.map(selector || selectorAll);
+  };
+
+  return self;
+};
