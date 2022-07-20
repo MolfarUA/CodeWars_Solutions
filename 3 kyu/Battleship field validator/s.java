@@ -1,3 +1,6 @@
+52bb6539a4cf1b12d90005b7
+
+
 public class BattleField {
         
     private static int xy(int[][] arr, int x, int y) {
