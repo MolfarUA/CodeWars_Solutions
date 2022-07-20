@@ -1,3 +1,6 @@
+54acd76f7207c6a2880012bb
+
+
 module Haskell.Codewars.MorseDecoder where
 
 import Haskell.Codewars.MorseDecoder.Preloaded
