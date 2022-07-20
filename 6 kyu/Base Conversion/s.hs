@@ -1,3 +1,6 @@
+526a569ca578d7e6e300034e
+
+
 module BaseConversion where
 
 import Data.List (genericLength, elemIndex, unfoldr)
