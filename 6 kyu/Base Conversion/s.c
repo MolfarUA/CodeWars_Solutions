@@ -1,3 +1,6 @@
+526a569ca578d7e6e300034e
+
+
 // Translate the input string from the source alphabet to the target alphabet
 long long int convertToDec(const char * input, const char * source) {
   int base = strlen(source);
