@@ -1,3 +1,7 @@
+59f9cad032b8b91e12000035
+
+
+
 function kcuf(code) {
   let q = false
   let statements = [...code]  // for each character
