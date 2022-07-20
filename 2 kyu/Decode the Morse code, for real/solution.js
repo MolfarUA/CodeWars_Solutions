@@ -1,3 +1,6 @@
+54acd76f7207c6a2880012bb
+
+
 function classify(items, centroids) {
   var clusters = [];
   for (let i = 0; i < centroids.length; i++) {
