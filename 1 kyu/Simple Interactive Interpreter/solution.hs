@@ -1,3 +1,6 @@
+52ffcfa4aff455b3c2000750
+
+
 {-# language FlexibleContexts #-}
 module SimpleInteractiveInterpreter (input, newInterpreter) where
 import qualified Data.Map as M
