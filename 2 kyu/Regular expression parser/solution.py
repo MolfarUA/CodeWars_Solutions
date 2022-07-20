@@ -1,3 +1,6 @@
+5470c635304c127cad000f0d
+
+
 """ GRAMMAR
 Root    ::= Or
 Or      ::= Str ( '|' Str )?
@@ -367,5 +370,192 @@ def parse(s, i=0, d=0, o=False):
     if len(stack) > 1:  return i, Str(stack)
     if len(stack) == 1: return i, stack[0]
     raise Exception
+____________________________________________________________
+from preloaded import Any, Normal, Or, Str, ZeroOrMore
+import string
 
 
+class InvalidSyntaxException(Exception):
+    pass
+
+
+class RDP:
+    normals = set(string.printable).difference(".|()*")
+    
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.location_stack = []
+        self.index = 0
+        self.next()
+        
+    def push_index(self):
+        self.location_stack.append(self.index)
+    
+    def pop_index(self):
+        self.index = self.lcoation_stack.pop()
+        
+    def next(self):
+        try:
+            self.current = self.tokens[self.index]
+            self.index += 1
+        except IndexError:
+            self.current = None
+    
+    def accept(self, tokens):  
+        if self.current is None:
+            return False, None
+        
+        if self.current in tokens:
+            t = self.current
+            self.next()
+            return True, t
+        return False, self.current
+
+    def expect(self, tokens, exception_type=ValueError):
+        f, t = self.accept(tokens)
+        if not f:
+            raise exception_type(f"Expected one of {tokens}, but found {t}")
+        return t
+    
+    def letter(self):
+        return Normal(self.expect(self.normals))
+    
+    def wildcard(self):
+        f, t = self.accept(".")
+        if f:
+            return Any()
+        else:
+            return self.letter()
+        
+    def brackets(self):
+        f, t = self.accept("(")
+        if f:
+            internal = self.either_or()
+            self.expect(")", InvalidSyntaxException)
+            node = internal
+        else:
+            node = self.wildcard()
+        
+        f, t = self.accept("*")
+        if f:
+            return ZeroOrMore(node)
+        return node
+        
+    
+    def unit(self):
+        r_nodes = []
+        try:
+            while True:
+                r_nodes.append(self.brackets())
+        except ValueError as e:
+            if len(r_nodes) == 0:
+                raise InvalidSyntaxException("Empty Brackets")
+        
+        if len(r_nodes) > 1:
+            r = Str(r_nodes)
+        else:
+            r = r_nodes[0]
+        
+        return r
+    
+    def either_or(self):
+        left = self.unit()
+        f, t = self.accept("|")
+        if f:
+            right = self.unit()
+            return Or(left, right)
+        return left
+    
+    def parse(self):
+        try:
+            root = self.either_or()
+        except InvalidSyntaxException:  # Could not parse
+            return None
+        if self.current is not None:  # Some unparsed remaining
+            return None
+        return root
+        
+
+def parse_regexp(indata):
+    parser = RDP(indata)
+    return parser.parse()
+____________________________________________________________
+import re
+from typing import TypeAlias
+
+from preloaded import Any, Normal, Or, Str, ZeroOrMore
+
+Regex: TypeAlias = Any | Normal | Or | Str | ZeroOrMore
+
+brackets = re.compile(r'\([^()]+\)')
+identifiers = {chr(ch) for ch in range(1000)}
+
+
+def parse_regexp(expression: str) -> Regex | None:
+    return RegexpParser(expression).parse_regexp()
+
+
+class RegexpParser:
+    def __init__(self, expression: str) -> None:
+        self._expression = expression
+        self._symbols = iter(identifiers - set(expression))
+        self._table: dict[str, Regex] = {}
+
+    def parse_regexp(self) -> Regex | None:
+        if self._is_valid():
+            self._parse_parts_with_brackets()
+            self._to_regex(self._expression, 'result')
+            return self._table.get('result')
+        return None
+
+    def _parse_parts_with_brackets(self) -> None:
+        while m := brackets.search(self._expression):
+            symbol = next(self._symbols)
+            self._to_regex(m.group(0), symbol)
+            self._expression = self._expression.replace(m.group(0), symbol)
+
+    def _to_regex(self, part: str, symbol: str) -> None:
+        part = part.lstrip('(').rstrip(')')
+        parts = part.split('|')
+        total_result: list[Regex] = []
+        for p in parts:
+            result = self._parse_part(p)
+            if len(result) > 1:
+                total_result.append(Str(result))
+            else:
+                total_result.extend(result)
+        self._table[symbol] = (
+            Or(*total_result) if len(total_result) > 1 else total_result[-1]
+        )
+
+    def _parse_part(self, part: str) -> list[Regex]:
+        result = []
+        for i, symbol in enumerate(part):
+            if symbol in self._table:
+                result.append(self._table[symbol])
+            elif symbol == '*':
+                result.append(ZeroOrMore(result.pop()))
+            else:
+                result.append(Normal(symbol) if symbol != '.' else Any())
+        return result
+
+    def _is_valid(self) -> bool:
+        return all((
+            self._expression,
+            not re.search(r'([^()]+\|){2,}', self._expression),
+            self._is_okay_zero_or_more_token(),
+            self._is_balanced_brackets()
+        ))
+
+    def _is_balanced_brackets(self) -> bool:
+        br = ''.join(ch for ch in self._expression if ch in {'(', ')'})
+        while '()' in br:
+            br = br.replace('()', '')
+        return not br and not re.search(r'\(\)', self._expression)
+
+    def _is_okay_zero_or_more_token(self) -> bool:
+        return all((
+            not re.search(r'(\*){2,}', self._expression),
+            not self._expression.startswith('*'),
+            not re.search(r'\(\*.*\)|\|\*', self._expression)
+        ))
