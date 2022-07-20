@@ -1,3 +1,6 @@
+526a569ca578d7e6e300034e
+
+
 function convert(input, source, target) {
   var inBase = source.length, len = input.length;
   var value = input.split('')
