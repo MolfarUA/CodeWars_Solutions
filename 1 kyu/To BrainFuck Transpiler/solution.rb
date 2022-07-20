@@ -1,3 +1,6 @@
+59f9cad032b8b91e12000035
+
+
 NUMBER_LITERALS = (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a).map { |e| "'" + e + "'" } + (-100..300).to_a
 
 COMMENT_PREFIX          = /\/\/|--|#/
