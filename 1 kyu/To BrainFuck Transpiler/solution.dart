@@ -1,3 +1,6 @@
+59f9cad032b8b91e12000035
+
+
 fun kcuf(RawCode : String,Origin : Boolean = false,Indent : String = "\t") : String
 {
     var Code = ""
