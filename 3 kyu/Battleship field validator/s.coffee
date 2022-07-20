@@ -1,3 +1,6 @@
+52bb6539a4cf1b12d90005b7
+
+
 validateBattlefield = (field) ->
   str    = (fld)    -> fld.map((a) -> a.map((b) -> b and 'X' or '.').join('')).join("\n")
   oneStr = (strFld) -> '.'.repeat(11) + strFld.replace(/\n/g,  '.') + '.'.repeat(11)
