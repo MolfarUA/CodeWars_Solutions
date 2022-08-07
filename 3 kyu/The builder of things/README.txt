@@ -1,3 +1,7 @@
+5571d9fc11526780a000011a
+
+
+
 For this kata you will be using some meta-programming magic to create a new Thing object. This object will allow you to define things in a descriptive sentence like format.
 
 This challenge attempts to build on itself in an increasingly complex manner.
