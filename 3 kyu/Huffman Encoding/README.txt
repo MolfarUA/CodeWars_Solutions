@@ -1,3 +1,7 @@
+54cf7f926b85dcc4e2000d9d
+
+
+
 Motivation
 
 Natural language texts often have a very high frequency of certain letters, in German for example, almost every 5th letter is an E, but only every 500th is a Q. It would then be clever to choose a very small representation for E. This is exactly what the Huffman compression is about, choosing the length of the representation based on the frequencies of the symbol in the text.
