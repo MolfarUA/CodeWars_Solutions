@@ -1,3 +1,6 @@
+5a20eeccee1aae3cbc000090
+
+
 A sliding puzzle is a combination puzzle that challenges a player to slide (frequently flat) pieces along certain routes (usually on a board) to establish a certain end-configuration.
 
 Your goal for this kata is to write a function that produces a sequence of tile movements that solves the puzzle.
