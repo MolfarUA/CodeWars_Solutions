@@ -1,3 +1,7 @@
+54cf7f926b85dcc4e2000d9d
+
+
+
 # takes: String; returns: [ [String,Int] ] (Strings in return value are single characters)
 frequencies = (s)->
   hash = {}
