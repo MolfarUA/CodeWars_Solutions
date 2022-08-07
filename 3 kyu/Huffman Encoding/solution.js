@@ -1,3 +1,7 @@
+54cf7f926b85dcc4e2000d9d
+
+
+
 function frequencies(s) {
   const occ = s.split('').reduce((a, c) => { a[c] = ~~a[c] + 1; return a; }, {});
   return Object.keys(occ).map(k => [k, occ[k]]);
