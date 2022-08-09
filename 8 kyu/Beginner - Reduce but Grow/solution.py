@@ -47,3 +47,15 @@ from functools import reduce, partial
 from operator import mul
 
 grow=partial(reduce, mul)
+#############
+def grow(arr):
+    r = 1
+    for t in arr:
+        r *= t
+    return r
+#############
+def grow(arr):
+    multiply_result = 1
+    for i in arr:
+        multiply_result *= i
+    return multiply_result
