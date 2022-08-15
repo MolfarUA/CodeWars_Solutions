@@ -1,3 +1,6 @@
+5a667236145c462103000091
+
+
 #include <bits/stdc++.h>
 
 bool isPerfectSquare(long double x)
