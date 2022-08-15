@@ -1,3 +1,6 @@
+52742f58faf5485cae000b9a
+
+
 class Kata {
   static String formatDuration(seconds){
     if (!seconds) return 'now'
