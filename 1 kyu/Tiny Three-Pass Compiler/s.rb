@@ -1,3 +1,7 @@
+5265b0885fda8eac5900093b
+
+
+
 class Compiler
     
     @@OP_FUNC = {'+'=> ->(a,b){a+b}, '-'=> ->(a,b){a-b}, '*'=> ->(a,b){a*b}, '/'=> ->(a,b){a/b},}
