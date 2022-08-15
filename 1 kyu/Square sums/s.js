@@ -1,3 +1,6 @@
+5a667236145c462103000091
+
+
 const TOP = 1300;
 const SQ  = new Set(Array.from({length:(2*TOP)**.5|0}, (_,i) => (i+1)**2));
 
