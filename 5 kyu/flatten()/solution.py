@@ -1,3 +1,6 @@
+513fa1d75e4297ba38000003
+
+
 def flatten(*args):
     final_list= []
 
@@ -214,3 +217,29 @@ def flatten(*args):
         else:
             answer.append(arg)
     return answer
+______________________________
+def flatten(*args):
+    flattened = []
+    
+    for arg in args:
+        if type(arg) == list:
+            flattened.extend(flatten(*arg))
+        else:
+            flattened.append(arg)
+        
+    return flattened
+______________________________
+def flatten(*lists):
+    flat = []
+    for item in list(lists):
+        if type(item) == list:
+            flat = flat + flatten(*item)
+        else:
+            flat.append(item)
+    return flat
+______________________________
+def flatten(*args):
+    ret = []
+    for x in args:
+        ret.extend(flatten(*x) if type(x) is list else [x])
+    return ret
