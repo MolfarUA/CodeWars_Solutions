@@ -1,3 +1,6 @@
+5547cc7dcad755e480000004
+
+
 import unittest
 
 def removNb (n):
@@ -107,3 +110,25 @@ def remov_nb(n):
             if x <= n:
                 lst.append((i, x))
     return lst
+______________________________
+def remov_nb(n):
+    # Setup
+    total_sum = (n * (n+1)) // 2  # little Gauss
+    out = []
+    # Loop
+    for a in range(1, n+1):
+        b = (total_sum - a) / (a + 1)  # the only possible b
+        if b == int(b) and b>= 1 and b <= n:  # check constraints on b
+            out.append((a, b))
+    # Result
+    return out
+______________________________
+def remov_nb(n):
+    
+    mass = []
+    summ = int(n*(n+1)/2 + 1)
+    for i in range(1, int(summ**0.5) + 1):
+        if summ % i == 0 and i-1 <= n and summ // i - 1 <= n :
+            mass.append((i - 1, summ // i - 1))
+            mass.append((summ // i - 1, i -1))
+    return sorted(mass)
