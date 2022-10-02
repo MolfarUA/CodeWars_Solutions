@@ -1,3 +1,6 @@
+5547cc7dcad755e480000004
+
+
 A friend of mine takes the sequence of all numbers from 1 to n (where n > 0).
 Within that sequence, he chooses two numbers, a and b.
 He says that the product of a and b should be equal to the sum of all numbers in the sequence, excluding a and b.
@@ -27,4 +30,9 @@ in C:
 removNb(26) should return  {{15, 21}{21, 15}} tested by way of strings.
 Function removNb should return a pointer to an allocated array of Pair pointers, each one also allocated. 
 Note
+See examples of returns for each language in "RUN SAMPLE TESTS"
+
+
+Note
+
 See examples of returns for each language in "RUN SAMPLE TESTS"
