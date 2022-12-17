@@ -1,4 +1,4 @@
-# CodeWars_Solutions v1.0.35
+# CodeWars_Solutions v1.0.37
 
 Mayor language of this repo is Python. 
 Every lang here with multiple solutions so you can choose or create new idea after overlook examples.
