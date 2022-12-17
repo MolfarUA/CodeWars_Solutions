@@ -1,3 +1,5 @@
+55b42574ff091733d900002f
+
 def friend(x):
     return [i for i in x if len(i) == 4]
 ##########
@@ -61,4 +63,26 @@ def friend(x):
         if len(n) == 4:
             friends.append(n)
             
+    return friends
+________________________________
+def friend(x):
+    shouldBe = [friend for friend in x if len(friend) == 4]
+    return shouldBe
+________________________________
+def friend(x):
+    lista = []
+    for i in x:
+        if len(i) != 4:
+            continue
+        else:
+            lista.append(i)
+    
+    return lista
+________________________________
+def friend(f):
+    friends = []
+    count = 0
+    for i in f:
+        if len(i) == 4:
+            friends.append(i)
     return friends
