@@ -1,3 +1,5 @@
+Description:
+
 Given a string "abc" and assuming that each letter in the string has a value equal to its position in the alphabet, our string will have a value of 1 + 2 + 3 = 6. This means that: a = 1, b = 2, c = 3 ....z = 26.
 
 You will be given a list of strings and your task will be to return the values of the strings as explained above multiplied by the position of that string in the list. For our purpose, position begins with 1.
@@ -15,3 +17,7 @@ If you like this Kata, please try:
 String matchup
 
 Consonant value
+
+Fundamentals
+
+598d91785d4ce3ec4f000018
