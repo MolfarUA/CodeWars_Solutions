@@ -1,3 +1,6 @@
+598d91785d4ce3ec4f000018
+
+
 def name_value(my_list):
     for i in range(len(my_list)):
         sum_chars = 0
@@ -78,3 +81,10 @@ def name_value(my_list):
     print(ll)
     conv = [sum([ord(c)-96 for c in k]) for k in ll]
     return [i*k for i,k in enumerate(conv, start=1)]
+_____________________________
+def name_value(my_list):
+    return [sum(ord(j) - ord('a') + 1 for j in my_list[i] if j.isalpha()) \
+            * (i + 1) for i in range(len(my_list))]
+_____________________________
+def name_value(my_list):
+    return [sum(ord(k)-96 if k.isalpha() else 0 for k in j) * (i+1) for i, j in enumerate(my_list)]
